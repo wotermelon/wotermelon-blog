@@ -1,0 +1,16 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "**/node_modules/**",
+    "server/app-assets/*",
+    "server/app-build/src/**",
+    "admin/**",
+    "app/**"
+  ],
+  "verbose": true,
+  "execMap": {
+    "js": "node"
+  },
+  "ext": ".js .json .etpl"
+}

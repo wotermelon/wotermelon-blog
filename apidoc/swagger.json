@@ -1,0 +1,605 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "version": "2.0.0",
+    "title": "接口文档"
+  },
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "auth",
+      "description": "鉴权相关接口"
+    },
+    {
+      "name": "tag",
+      "description": "标签相关接口"
+    },
+    {
+      "name": "post",
+      "description": "文章相关接口"
+    },
+    {
+      "name": "comment",
+      "description": "评论回复相关接口"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "登录",
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "登出",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/tag": {
+      "get": {
+        "tags": [
+          "tag"
+        ],
+        "summary": "获取所有标签",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "tag"
+        ],
+        "summary": "新建标签",
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/tag/{tagId}": {
+      "put": {
+        "tags": [
+          "tag"
+        ],
+        "summary": "更新标签",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tagId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "tag"
+        ],
+        "summary": "删除标签",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tagId",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/post": {
+      "post": {
+        "tags": [
+          "post"
+        ],
+        "summary": "新建文章",
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "title",
+                "content"
+              ],
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "tag": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "number",
+                  "description": "0发布，1草稿"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/post/{postId}": {
+      "get": {
+        "tags": [
+          "post"
+        ],
+        "summary": "获取文章详情",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "post"
+        ],
+        "summary": "更新文章",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "title",
+                "content"
+              ],
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "tag": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "number",
+                  "description": "0发布，1草稿"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "post"
+        ],
+        "summary": "修改文章状态",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "description": "0发布，1草稿"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "post"
+        ],
+        "summary": "删除文章",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "force",
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/post/{postId}/like": {
+      "get": {
+        "tags": [
+          "post"
+        ],
+        "summary": "文章点赞",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/post/{postId}/comment": {
+      "post": {
+        "tags": [
+          "comment"
+        ],
+        "summary": "评论文章",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "nickname",
+                "content",
+                "email"
+              ],
+              "properties": {
+                "nickname": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/post/{postId}/comment/{commentId}": {
+      "delete": {
+        "tags": [
+          "comment"
+        ],
+        "summary": "删除评论",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "commentId",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/post/{postId}/comment/{commentId}/reply": {
+      "post": {
+        "tags": [
+          "comment"
+        ],
+        "summary": "回复评论",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "commentId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "nickname",
+                "content",
+                "email"
+              ],
+              "properties": {
+                "nickname": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/post/{postId}/comment/{commentId}/reply/{replyId}": {
+      "delete": {
+        "tags": [
+          "comment"
+        ],
+        "summary": "删除评论回复",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "postId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "commentId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "replyId",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "code：0成功",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ApiResponse": {
+      "type": "object",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

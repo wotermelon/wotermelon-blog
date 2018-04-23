@@ -1,0 +1,101 @@
+#!/usr/bin/env node
+
+var app = require('../app')
+var http = require('http')
+var debug = require('debug')('demo:server')
+const mongoose = require('mongoose')
+var config = require('../../config')
+var port = normalizePort(process.env.PORT || config.port)
+
+mongoose.Promise = require('bluebird')
+
+/**
+ * Create HTTP server.
+ */
+var server = http.createServer(app.callback())
+
+/**
+ * 连接数据库启动服务器
+ */
+connectDB()
+  .then(() => {
+    console.log('>>  mongoDB 连接成功')
+    server.listen(port)
+    server.on('error', onError)
+    server.on('listening', onListening)
+  }).catch((err) => {
+    console.log(err)
+  })
+// 格式化端口
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+  if (isNaN(port)) {
+    // named pipe
+    return val
+  }
+  if (port >= 0) {
+    // port number
+    return port
+  }
+  return false
+}
+
+// 服务器启动回调
+function onListening () {
+  var addr = server.address();
+  console.log('>>  Listening on port ' + port)
+  console.log('>>  by http://localhost:' + port)
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind)
+}
+
+// 服务器错误回调
+function onError (error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.log('>>  ' + bind + ' 端口需要权限')
+      process.exit(1)
+      break
+    case 'EADDRINUSE':
+      console.log('>>  ' + bind + ' 端口已被占用');
+      process.exit(1)
+      break
+    default:
+      throw error
+  }
+}
+
+function connectDB () {
+  let options = {
+    useMongoClient: true,
+    server: {
+      poolSize: 5,
+      socketOptions: {
+        keepAlive: 1
+        // ,
+        // connectTimeoutMS: 10000,
+        // socketTimeoutMS: 10000
+      }
+    }
+  }
+  // mongoose.set('debug', process.env.NODE_ENV === 'development')
+  mongoose.set('debug', true)
+
+  let authPrefix = ''
+  if (config.db.username) {
+    authPrefix = `${config.db.username}:${config.db.password}@`
+  }
+  let url = `mongodb://${authPrefix}${config.db.host}:${config.db.port}/${config.db.database}?authMode=scram-sha1${config.db.authSource ? '&authSource=admin' : ''}`
+  return mongoose.connect(url, options)
+}
